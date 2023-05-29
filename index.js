@@ -30,10 +30,14 @@ console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin
   Aşağıdaki skor1 ve skor2 kodlarını inceleyiniz ve aşağıdaki soruları altına not alarak cevaplayın
   
   1. skor1 ve skor2 arasındaki fark nedir?
-  
+  //skor1'de skor değişkeni skorArtirici fonksiyonu içerisinde local olarak tanımlanmış, skor2'de ise global olarak tanımlanmış.
+
   2. Hangisi bir closure kullanmaktadır? Nasıl tarif edebilirsin? (yarınki derste öğreneceksin :) )
-  
+  // skor1 closure kullanmaktadır. Fonksiyon içerisinde bir başka fonksiyon çağırmak olarak tarif edebilirim.
+
   3. Hangi durumda skor1 tercih edilebilir? Hangi durumda skor2 daha mantıklıdır?
+  //skorGuncelle fonksiyonunu çağırarak işleri kolaylaştırmak istiyorsak skor1 tercih edilebilir. 
+  //Sadece skor değişkeninin içerisindeki sayı değerini arttırmak istiyorsak ve bu değişkene ulaşmak isteyen başka fonksiyonlar varsa skor2 kullanmak daha mantıklı.
 */
 
 // skor1 kodları
@@ -64,11 +68,14 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+function takimSkoru(){
+    let min = 10;
+    let max = 25;
+    let uretilenSkor = Math.floor(Math.random() * (max - min) + min);
+    return uretilenSkor;
 }
 
-
+console.log(takimSkoru());
 
 
 /* Görev 3: macSonucu() 
@@ -86,11 +93,19 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(skor,csay){
+  let eskor = 0;
+  let kskor = 0;
+
+  for(let i = 0; i < csay; i++){
+    eskor = eskor + skor();
+    kskor = kskor + skor();
+  }
+
+  return {EvSahibi: eskor, KonukTakim: kskor};
 }
 
-
+console.log("macSonucu",macSonucu(takimSkoru, 4));
 
 
 
@@ -109,11 +124,19 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function periyotSkoru(skor) {
+
+  let eskor = 0;
+  let kskor = 0;
+
+  eskor = skor();
+  kskor = skor();
+  
+  return {EvSahibi: eskor, KonukTakim: kskor};
 
 }
 
+console.log("periyotSkoru",periyotSkoru(takimSkoru));
 
 /* Zorlayıcı Görev 5: skorTabelasi() 
 Aşağıdaki skorTabelasi() fonksiyonunu kullanarak aşağıdakileri yapınız:
@@ -144,13 +167,38 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
   "Maç Sonucu: Ev Sahibi 71 - Konuk Takım 67"  
 ]
 ] */
-// NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
+// NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tamamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function skorTabelasi(pskor,tskor,csay) {
+  let ecsonuc = [];
+  let kcsonuc = [];
+  let obj = {};
+
+  let etoplam = 0;
+  let ktoplam = 0;
+
+  let csonuc =[];
+
+  
+  for(let i = 0; i < csay; i++){
+    obj = pskor(tskor);
+    ecsonuc[i] =  obj.EvSahibi ;
+    kcsonuc[i] = obj.KonukTakim;
+  
+    console.log((i+1) + ". Periyot:" + "Ev Sahibi " + obj.EvSahibi + " - " + "Konuk Takım " + obj.KonukTakim);
+
+    etoplam = etoplam + ecsonuc[i];
+    ktoplam = ktoplam + kcsonuc[i];
+
+    
+
+  }
+  console.log("Maç Sonucu: " + "Ev Sahibi " + etoplam + " - " + "Konuk Takım " + ktoplam);
+
+  //return 
 }
 
-
+console.log("skorTabelasi",skorTabelasi(periyotSkoru,takimSkoru,4));
 
 
 /* Aşağıdaki satırları lütfen değiştirmeyiniz*/
