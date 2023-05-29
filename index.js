@@ -172,7 +172,7 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 
 function skorTabelasi(pskor,tskor,csay) {
   
-  let skorTabelasi = []; 
+  const skorTabelasi = []; 
   let obj = {};
   let etoplam = 0;
   let ktoplam = 0;
@@ -211,7 +211,7 @@ function skorTabelasi(pskor,tskor,csay) {
 
   console.log("Maç Sonucu: " + "Ev Sahibi " + etoplam + " - " + "Konuk Takım " + ktoplam);
 
-  
+  return skorTabelasi;
 }
 
 console.log("skorTabelasi",skorTabelasi(periyotSkoru,takimSkoru,4));
