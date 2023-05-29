@@ -71,11 +71,12 @@ Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyon
 function takimSkoru(){
     let min = 10;
     let max = 25;
-    let uretilenSkor = Math.floor(Math.random() * (max - min) + min);
+    let uretilenSkor = Math.ceil(Math.random() * (max - min) + min-1);
     return uretilenSkor;
 }
 
 console.log(takimSkoru());
+
 
 
 /* Görev 3: macSonucu() 
@@ -170,32 +171,47 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tamamlandı sayabilirsiniz.
 
 function skorTabelasi(pskor,tskor,csay) {
-  let ecsonuc = [];
-  let kcsonuc = [];
+  
+  let skorTabelasi = []; 
   let obj = {};
-
   let etoplam = 0;
   let ktoplam = 0;
-
-  let csonuc =[];
-
   
   for(let i = 0; i < csay; i++){
+    
     obj = pskor(tskor);
-    ecsonuc[i] =  obj.EvSahibi ;
-    kcsonuc[i] = obj.KonukTakim;
-  
+    etoplam = etoplam + obj.EvSahibi ;
+    ktoplam = ktoplam + obj.KonukTakim;
+    skorTabelasi.push(obj);
+   
     console.log((i+1) + ". Periyot:" + "Ev Sahibi " + obj.EvSahibi + " - " + "Konuk Takım " + obj.KonukTakim);
 
-    etoplam = etoplam + ecsonuc[i];
-    ktoplam = ktoplam + kcsonuc[i];
-
-    
-
   }
+
+  let uzatmaSayisi = 0;
+
+  function uzatmaKontorl(){
+    if(etoplam === ktoplam){
+      uzatmaSayisi++;
+      obj = pskor(tskor);
+      etoplam = etoplam + obj.EvSahibi ;
+      ktoplam = ktoplam + obj.KonukTakim;
+      skorTabelasi.push(obj);
+  
+      console.log( uzatmaSayisi + ". Uzatma:" + "Ev Sahibi " + obj.EvSahibi + " - " + "Konuk Takım " + obj.KonukTakim);
+    } 
+    
+    //ilk kontrol sonrası tekrar kontrol   
+    if(etoplam === ktoplam){
+      uzatmaKontorl();
+    }
+  }
+ 
+  uzatmaKontorl();
+
   console.log("Maç Sonucu: " + "Ev Sahibi " + etoplam + " - " + "Konuk Takım " + ktoplam);
 
-  //return 
+  
 }
 
 console.log("skorTabelasi",skorTabelasi(periyotSkoru,takimSkoru,4));
